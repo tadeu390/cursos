@@ -45,7 +45,17 @@ class CategoriaService
 
     public function delete($id)
     {
-        return $this->repository->delete($id);
+        if (count($this->repository->findById($id)->produtos) == 0) {
+            $this->repository->delete($id);
+            return (object) [
+                'success' => true,
+                'message' => 'Categoria removida com sucesso.'
+            ];
+        }
+        return (object) [
+            'success' => false,
+            'message' => 'A categoria não pode ser removida pois existe produtos associados a ela.'
+        ];
     }
 
     public function search($data)

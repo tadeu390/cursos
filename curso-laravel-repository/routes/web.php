@@ -11,19 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'SiteController@index');
+
+Auth::routes(['register' => false]);//desabilita o registro automático, ou seja, os usuários não podem se registrar. Quando passa esse parametro com false.
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
+
+    Route::any('categorias/search', "CategoriaController@search")->name('categorias.search');
+    Route::resource('categorias', 'CategoriaController');
+
+    Route::any('produtos/search', 'ProdutoController@search')->name('produtos.search');
+    Route::resource('produtos', 'ProdutoController');
+
+    Route::get('/', 'DashboardController@index')->name('admin');
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('admin', function() {
-})->name('admin');
-
-Route::any('/admin/categorias/search', "Admin\CategoriaController@search")->name('categorias.search');
-Route::resource('/admin/categorias', 'Admin\CategoriaController');
-
-Route::any('/admin/produtos/search', 'Admin\ProdutoController@search')->name('produtos.search');
-Route::resource('/admin/produtos', 'Admin\ProdutoController');

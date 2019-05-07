@@ -25,7 +25,7 @@ class CategoriaController extends Controller
     public function index()
     {
         $categorias = $this->service->index();
-        
+
         return view('admin.categorias.index', compact('categorias'));
     }
 
@@ -47,7 +47,7 @@ class CategoriaController extends Controller
      */
     public function store(CategoriaRequest $request)
     {
-        //O QUERY BUILDER DO LARAVEL NÃO LEVA EM CONSIDERAÇÃO O FIILABLE PARA 
+        //O QUERY BUILDER DO LARAVEL NÃO LEVA EM CONSIDERAÇÃO O FIILABLE PARA
         //DETERMINAR QUAIS CAMPOS da variavel request devem ser gravados no banco,
         //PORTANTO É NECESSÁRIO ESPECÍFICAR CAMPO A CAMPO.
         $this->service->store([
@@ -119,9 +119,14 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        $this->service->delete($id);
+        $service = $this->service->delete($id);
 
-        return redirect()->route('categorias.index');
+        if(!$service->success) {
+            return redirect()->route('categorias.index')
+                ->withDanger($service->message);
+        }
+
+        return redirect()->route('categorias.index')->withSuccess($service->message);
     }
 
     /**

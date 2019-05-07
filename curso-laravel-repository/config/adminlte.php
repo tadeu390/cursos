@@ -110,14 +110,24 @@ return [
     'menu' => [
         '',
         [
+            'text' => 'Dashboard',
+            'url'  => 'admin',
+            'icon' => 'tachometer',
+        ],
+        [
             'text' => 'Categorias',
             'url'  => 'admin/categorias',
-        
+            'icon' => 'object-group',
         ],
         [
             'text'        => 'Produtos',
             'url'         => 'admin/produtos',
-            'icon'        => 'file',
+            'icon'        => 'tasks',
+        ],
+        [
+            'text'        => 'Usuários',
+            'url'         => 'admin/users',
+            'icon'        => 'users',
         ]
     ],
 

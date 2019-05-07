@@ -7,7 +7,7 @@
         <a href="{{route('categorias.create')}}" class="btn btn-success">Adicionar</a>
         Categorias
     </h1>
-    
+
     <ol class="breadcrumb">
         <li>
             <a href="{{route('admin')}}">Dashboard</a>
@@ -70,5 +70,5 @@
             </div>
         </div>
     </div>
-    
+
 @stop
