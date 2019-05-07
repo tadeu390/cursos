@@ -126,7 +126,7 @@ return [
         ],
         [
             'text'        => 'Usuários',
-            'url'         => 'admin/users',
+            'url'         => 'admin/usuarios',
             'icon'        => 'users',
         ]
     ],

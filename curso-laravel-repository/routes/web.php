@@ -24,4 +24,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::resource('produtos', 'ProdutoController');
 
     Route::get('/', 'DashboardController@index')->name('admin');
+
+    Route::resource('usuarios', "UsuarioController");
+    Route::any('usuarios/search', 'UsuarioController@search')->name('usuarios.search');
 });
