@@ -19,7 +19,7 @@ class ProdutoService
         return $this->repository
                     ->orderBy('id')
                     ->relationships('categoria')
-                    ->paginate();
+                    ->paginate(2);
     }
 
     public function show($id)

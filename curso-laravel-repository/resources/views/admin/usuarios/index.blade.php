@@ -4,7 +4,6 @@
 
 @section('content_header')
     <h1>
-        <a href="{{route('usuarios.create')}}" class="btn btn-success">Adicionar</a>
         Usuários
     </h1>
 
@@ -30,6 +29,8 @@
                         <a href="{{route('usuarios.index')}}" class="btn btn-warning">Limpar filtros</a>
                     @endif
                 </form>
+                <br />
+                <a href="{{route('usuarios.create')}}" class="btn btn-success">Adicionar</a>
             </div>
         </div>
         <div class="box box-success">

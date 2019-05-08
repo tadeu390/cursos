@@ -17,7 +17,7 @@ class EloquentCategoriaRepository extends BaseEloquentRepository implements Cate
     {
         return $this->entity->where(function($query) use ($data){//funcao de callback
             if (isset($data->title)) {
-                $query = $query->where('title', $data->title);
+                $query = $query->where('title', 'LIKE', "%{$data->title}%");
             }
 
             if (isset($data->url)) {
@@ -29,7 +29,7 @@ class EloquentCategoriaRepository extends BaseEloquentRepository implements Cate
             }
         })
         ->orderBy('id', 'DESC')
-        ->paginate(15);
+        ->paginate(2);
     }
 
     //polimorfismo, reescrevendo alguns métodos

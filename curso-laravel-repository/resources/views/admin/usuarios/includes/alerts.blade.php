@@ -6,6 +6,12 @@
     </div>
 @endif
 
+@if( $error = session( 'error' ) )
+    <div class="alert alert-danger" data-error="{{ $error['class'] }}">
+        {{ $error['message'] }}
+    </div>
+@endif
+
 @if(session('success'))
     <div class="alert alert-success">
         {{session('success')}}

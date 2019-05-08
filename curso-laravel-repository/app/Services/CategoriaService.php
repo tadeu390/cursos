@@ -20,7 +20,7 @@ class CategoriaService
 
     public function index()
     {
-        return $this->repository->paginate();
+        return $this->repository->paginate(2);
     }
 
     public function store($data)

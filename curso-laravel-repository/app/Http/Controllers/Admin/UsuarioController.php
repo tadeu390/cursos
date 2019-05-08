@@ -9,15 +9,21 @@ use App\Services\UsuarioService;
 
 class UsuarioController extends Controller
 {
+    /**
+     * @var UsuarioService
+     */
     protected $usuario;
 
+    /**
+     *  Carrega as instâncias das dependências desta classe.
+     */
     public function __construct(UsuarioService $usuario)
     {
         $this->usuario = $usuario;
     }
 
     /**
-     * Display a listing of the resource.
+     * Mostra a lista de registros.
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,7 +35,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostra o formulário para criar um novo registro.
      *
      * @return \Illuminate\Http\Response
      */
@@ -39,22 +45,31 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Envia os dados para registro.
      *
-     * @param  \Illuminate\Http\Requests\UsuarioRequest  $request
+     * @param  \Illuminate\Http\Requests\UsuarioRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(UsuarioRequest $request)
     {
-        $this->usuario->store($request->all());
+        $service = $this->usuario->store($request->all());
+
+        if (!$service->success) {
+            return redirect()->route('usuarios.create')
+                ->with('error', [
+                    'class' => $service->class,
+                    'message' => $service->message
+                ])
+                ->withInput();
+        }
 
         return redirect()
-            ->route('usuarios.index')
-            ->withSuccess('Usuário cadastrado com sucesso');
+                        ->route('usuarios.index')
+                        ->withSuccess($service->message);
     }
 
     /**
-     * Display the specified resource.
+     * Mostra um registro específico.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -70,7 +85,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Exibe um registro para edição.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -87,7 +102,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Envia os dados para serem atualizados.
      *
      * @param  \Illuminate\Http\Request\UsuarioRequest $request
      * @param  int  $id
@@ -95,28 +110,52 @@ class UsuarioController extends Controller
      */
     public function update(UsuarioRequest $request, $id)
     {
-        $this->usuario->update($id, $request->all());
+        $service = $this->usuario->update($id, $request->all());
+
+        if (!$service->success) {
+            return redirect()->route('usuarios.edit', $id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
 
         return redirect()
-            ->route("usuarios.index")
-            ->withSuccess('Usuário atualizado com sucesso.');
+                        ->route("usuarios.index")
+                        ->withSuccess($service->message);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Solicita a camada de serviço a remoção de um registro.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $this->usuario->delete($id);
+        $service = $this->usuario->delete($id);
+
+        if (!$service->success) {
+            return redirect()->route('usuarios.show', $id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
 
         return redirect()
-            ->route('usuarios.index')
-            ->withSuccess('Usuário apagado com sucesso.');
+                        ->route('usuarios.index')
+                        ->withSuccess($service->message);
     }
 
+    /**
+     * Pega os dados de busca informados pelo usuário.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function search(Request $request)
     {
         $usuarios = $this->usuario->search($request);

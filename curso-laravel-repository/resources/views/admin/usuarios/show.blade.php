@@ -24,6 +24,7 @@
     <div class="content row">
         <div class="box box-success">
             <div class="box-body">
+                @include('admin.usuarios.includes.alerts')
                 <input type="hidden" name="_method" value="PUT">
                 @include('admin.usuarios._partials.form')
             </div>

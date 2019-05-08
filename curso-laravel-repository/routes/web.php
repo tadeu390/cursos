@@ -13,7 +13,8 @@
 
 Route::get('/', 'SiteController@index');
 
-Auth::routes(['register' => false]);//desabilita o registro automático, ou seja, os usuários não podem se registrar. Quando passa esse parametro com false.
+//Auth::routes(['register' => false]);//desabilita o registro automático, ou seja, os usuários não podem se registrar. Quando passa esse parametro com false.
+Auth::routes();
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
 
@@ -25,6 +26,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::get('/', 'DashboardController@index')->name('admin');
 
-    Route::resource('usuarios', "UsuarioController");
     Route::any('usuarios/search', 'UsuarioController@search')->name('usuarios.search');
+    Route::resource('usuarios', "UsuarioController");
+//primeiro a rota search, depois os resources
 });
