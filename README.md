@@ -47,5 +47,5 @@ Dentro da pasta configs há vários arquivos que podem ser executados, cada um p
 <b>run.sh -></b> Levanta os containeres necessários para aplicação.<br />
 <b>workspace.sh -></b> Acessa a workspace do container do docker.<br />
 <b>restart.sh -></b> Reinicia todos os containeres do docker.<br />
-<b>down.sh -></b> Para e remove todos os containeres do docker.<br />
-<b>stop.sh -></b> Apenas para e execução dos containeres do docker.<br />
+<b>down.sh -></b> Pára e remove todos os containeres do docker.<br />
+<b>stop.sh -></b> Apenas pára a execução dos containeres do docker.<br />
