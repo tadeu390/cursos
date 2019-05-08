@@ -14,6 +14,10 @@ Sendo assim, execute o seguinte comando:
 ```
 sudo chmod 777 -R config/
 ```
+Para a primeira execução precisamos gerar o nosso arquivo de configuração do laradock. Para isso execute o comando abaixo.
+```
+sudo ./config/init.sh
+```
 Com isto feito poderemos agora subir todas as imagens necessárias para a execução dos projetos.
 Para isso execute o seguinte comando:
 ```
@@ -39,6 +43,7 @@ sudo ./config/workspace.sh
 
 Dentro da pasta configs há vários arquivos que podem ser executados, cada um possui uma função específica. Segue abaixo a descrição da funcionalidade de cada um deles.
 
+<b>init.sh -></b> Cria o arquivo de configuração do laradock. Aqui temos as configurações referente aos containeres.<br />
 <b>run.sh -></b> Levanta os containeres necessários para aplicação.<br />
 <b>workspace.sh -></b> Acessa a workspace do container do docker.<br />
 <b>restart.sh -></b> Reinicia todos os containeres do docker.<br />
