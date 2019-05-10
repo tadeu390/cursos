@@ -9,10 +9,10 @@
 
     <ol class="breadcrumb">
         <li>
-            <a href="{{route('admin')}}">Dashboard</a>
+            <a href="{{route('admin')}}">Dashboafdgdrd</a>
         </li>
         <li>
-            <a href="{{route('usuarios.index')}}" class="active">Usuários</a>
+            <a href="{{route('usuarios.index')}sdf}" class="active">Usuários</a>
         </li>
     </ol>
 @stop
