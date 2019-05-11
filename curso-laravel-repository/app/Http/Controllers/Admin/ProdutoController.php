@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
@@ -13,10 +12,12 @@ class ProdutoController extends Controller
     protected $produto;
     protected $categoria;
 
-    public function __construct(ProdutoService $produto, CategoriaService $categoria)
-    {
+    public function __construct(
+        ProdutoService $produto,
+        CategoriaService $categoria
+        ) {
         $this->produto = $produto;
-       $this->categoria = $categoria;
+        $this->categoria = $categoria;
     }
 
     /**
@@ -129,6 +130,7 @@ class ProdutoController extends Controller
         $produtos = $this->produto->search($request);
 
         $data = $request->except('_token');
+
         return view('admin.produtos.index', compact('produtos', 'data'));
     }
 }

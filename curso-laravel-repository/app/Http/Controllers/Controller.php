@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -10,4 +9,15 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function breadcrumb(array $opcoes)
+    {
+        $breacrumb = [];
+        $i = 0;
+        foreach ($opcoes as $value) {
+            $breacrumb[$i++] = $value;
+        }
+
+        return (object) $breacrumb;
+    }
 }

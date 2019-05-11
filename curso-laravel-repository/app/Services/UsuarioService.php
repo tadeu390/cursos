@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use App\Repositories\Contracts\UsuarioRepositoryInterface;
@@ -27,9 +26,7 @@ class UsuarioService
      */
     public function index()
     {
-        return $this->repository
-                   
-                    ->paginate(2);
+        return $this->repository->paginate(2);
     }
 
     /**
@@ -51,7 +48,7 @@ class UsuarioService
      */
     public function store($data)
     {
-        try{
+        try {
             $this->repository->store($data);
 
             return (object) [
@@ -87,7 +84,7 @@ class UsuarioService
      */
     public function update($id, $data)
     {
-        try{
+        try {
             $this->repository->update($id, $data);
 
             return (object) [

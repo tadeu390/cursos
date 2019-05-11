@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
@@ -121,7 +120,7 @@ class CategoriaController extends Controller
     {
         $service = $this->service->delete($id);
 
-        if(!$service->success) {
+        if (!$service->success) {
             return redirect()->route('categorias.index')
                 ->withDanger($service->message);
         }
@@ -144,10 +143,9 @@ class CategoriaController extends Controller
                     ->get(); */
 
         $data = (object) $request->except('_token');
-
         $categorias = $this->service->search($data);
+        $data = (array) $data;
 
-            $data = (array) $data;
         return view('admin.categorias.index', compact('categorias', 'data'));
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use App\Repositories\Contracts\ProdutoRepositoryInterface;
@@ -39,8 +38,6 @@ class ProdutoService
 
     public function update($id, $data)
     {
-        unset($data['_token']);
-        unset($data['_method']);
         return $this->repository->update($id, $data);
     }
 

@@ -15,7 +15,7 @@ return [
 
     'title' => 'Curso Laravel',
 
-    'title_prefix' => 'Antes - ',
+    'title_prefix' => '',
 
     'title_postfix' => ' - Empresa',
 

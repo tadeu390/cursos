@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 namespace App\Services;
 
 use App\Repositories\Contracts\CategoriaRepositoryInterface;
@@ -52,6 +51,7 @@ class CategoriaService
                 'message' => 'Categoria removida com sucesso.'
             ];
         }
+
         return (object) [
             'success' => false,
             'message' => 'A categoria não pode ser removida pois existe produtos associados a ela.'

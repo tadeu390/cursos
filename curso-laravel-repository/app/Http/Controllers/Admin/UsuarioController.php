@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
@@ -29,9 +28,10 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        $breadcrumb = $this->breadcrumb(['Usuários']);
         $usuarios = $this->usuario->index();
 
-        return view('admin.usuarios.index', compact('usuarios'));
+        return view('admin.usuarios.index', compact('usuarios', 'breadcrumb'));
     }
 
     /**
@@ -41,7 +41,8 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('admin.usuarios.create');
+        $breadcrumb = $this->breadcrumb(['Usuários', 'Novo']);
+        return view('admin.usuarios.create', compact('breadcrumb'));
     }
 
     /**
@@ -76,12 +77,13 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
+        $breadcrumb = $this->breadcrumb(['Usuários', 'Visualizar']);
         $usuario = $this->usuario->show($id);
 
         if(!$usuario)
             return redirect()->back();
 
-        return view('admin.usuarios.show', compact('usuario'));
+        return view('admin.usuarios.show', compact('usuario', 'breadcrumb'));
     }
 
     /**
@@ -92,13 +94,14 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
+        $breadcrumb = $this->breadcrumb(['Usuários', 'Editar']);
         $usuario = $this->usuario->edit($id);
 
         if (!$usuario) {
             return redirect()->back();
         }
 
-        return view('admin.usuarios.edit', compact('usuario'));
+        return view('admin.usuarios.edit', compact('usuario', 'breadcrumb'));
     }
 
     /**
