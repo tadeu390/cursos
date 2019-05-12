@@ -136,4 +136,14 @@ class UsuarioService
     {
         return $this->repository->search($request);
     }
+
+    /**
+     * Retorna a quantidade de usuários.
+     *
+     * @return int
+     */
+    public function countUser()
+    {
+        return count($this->repository->getAll());
+    }
 }

@@ -166,4 +166,25 @@ class UsuarioController extends Controller
         $data = $request->except('_token');
         return view('admin.usuarios.index', compact('usuarios', 'data'));
     }
+
+    /**
+     * Debug for ACL.
+     */
+    public function permissions()
+    {
+        echo'<b>Debug ACL</b><br /><br />';
+        echo 'Usuário logado: <b>'.auth()->user()->name.'</b><br />';
+        echo 'ID do Usuário logado: <b>'.auth()->user()->id.'</b><br />';
+        echo 'E-mail do Usuário logado: <b>'.auth()->user()->email.'</b><br /><pre>';
+
+        foreach (auth()->user()->roles as $role) {
+            echo '<b>Funções deste usuário</b> <br />';
+            print_r($role->toArray());
+            foreach ($role->permissions as $permission) {
+                echo "<br />Permissões da função: <b>{$role->name}</b> <br />";
+                print_r($permission->toArray());
+            }
+            echo '<br /><br />';
+        }
+    }
 }

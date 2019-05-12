@@ -57,7 +57,6 @@
                     </thead>
                     <tbody>
                         @foreach ($produtos as $item)
-                            @can('view_produto', $item)
                             <tr>
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->name}}</td>
@@ -68,7 +67,6 @@
                                     <a href="{{route('produtos.show', $item->id)}}" class="badge bg-yellow">Visualizar</a>
                                 </td>
                             </tr>
-                            @endcan
                         @endforeach
                     </tbody>
                 </table>
@@ -80,5 +78,4 @@
             </div>
         </div>
     </div>
-
 @stop

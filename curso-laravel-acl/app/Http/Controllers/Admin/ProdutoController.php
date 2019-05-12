@@ -6,6 +6,7 @@ use App\Http\Requests\ProdutoRequest;
 use App\Http\Controllers\Controller;
 use App\Services\ProdutoService;
 use App\Services\CategoriaService;
+use Illuminate\Support\Facades\Gate;
 
 class ProdutoController extends Controller
 {
@@ -27,6 +28,10 @@ class ProdutoController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('view_produto')) {
+            abort(403);
+        }
+
         $produtos = $this->produto->index();
 
         return view('admin.produtos.index', compact('produtos'));
@@ -134,23 +139,5 @@ class ProdutoController extends Controller
         $data = $request->except('_token');
 
         return view('admin.produtos.index', compact('produtos', 'data'));
-    }
-
-    public function permissions()
-    {
-        echo'<b>Debug ACL</b><br /><br />';
-        echo 'Usuário logado: <b>'.auth()->user()->name.'</b><br />';
-        echo 'ID do Usuário logado: <b>'.auth()->user()->id.'</b><br />';
-        echo 'E-mail do Usuário logado: <b>'.auth()->user()->email.'</b><br /><pre>';
-
-        foreach (auth()->user()->roles as $role) {
-            echo '<b>Funções deste usuário</b> <br />';
-            print_r($role->toArray());
-            foreach ($role->permissions as $permission) {
-                echo "<br />Permissões da função: <b>{$role->name}</b> <br />";
-                print_r($permission->toArray());
-            }
-            echo '<br /><br />';
-        }
     }
 }

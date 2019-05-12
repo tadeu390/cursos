@@ -53,3 +53,19 @@ table .fa {
 .fa-edit, .fa-info-circle {
     color: #605ca8;
 }
+
+#cardsDashboard .fa-users, .fa-address-card,.fa-check-circle
+{
+    font-size: 100px;
+    color: #605ca8;
+}
+
+#cardsDashboard a
+{
+    color: #605ca8;
+}
+
+.border-fieldset
+{
+    border: 1px solid #ced4da;
+}

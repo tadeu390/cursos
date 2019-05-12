@@ -1,21 +1,21 @@
 @extends('adminlte::page')
 
-@section('title', 'Visualizar usuário')
+@section('title', 'Visualizar permissão')
 
 @section('content')
     <div class="content row">
         <div class="box box-purple">
             @include('admin.includes.header')
             <div class="box-body">
-                @include('admin.usuarios.includes.alerts')
+                @include('admin.permissions.includes.alerts')
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group">
-                        <label for="name">Nome</label>
-                    <input readonly="readonly" type="text" id="name" value="{{$usuario->name ?? old('name')}}" name="name" class="form-control">
+                    <label for="name">Nome</label>
+                    <input readonly="readonly" type="text" id="name" value="{{$permission->name ?? old('name')}}" name="name" class="form-control">
                 </div>
                 <div class="form-group">
-                        <label for="email">E-mail</label>
-                    <input readonly="readonly" type="text" id="email" value="{{$usuario->email ?? old('email')}}" name="email" class="form-control">
+                    <label for="label">Descrição</label>
+                    <input readonly="readonly" type="text" id="label" value="{{$permission->label ?? old('label')}}" name="label" class="form-control">
                 </div>
                 <fieldset class="p-2 border-fieldset">
                     <legend class="p-2">Funções</legend>
@@ -27,7 +27,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($usuario->roles as $item)
+                            @foreach ($permission->roles as $item)
                             <tr>
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->label}}</td>
@@ -37,7 +37,7 @@
                     </table>
                 </fieldset>
                 <br />
-                <form action="{{route('usuarios.destroy', $usuario->id)}}" class="form" method="POST">
+                <form action="{{route('permissions.destroy', $permission->id)}}" class="form" method="POST">
                     @csrf
                     <input type="hidden" name="_method" value="DELETE">
                     <button href="submit" class="btn btn-danger">Deletar</button>

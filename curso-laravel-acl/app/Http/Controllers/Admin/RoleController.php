@@ -3,9 +3,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
+use App\Services\RoleService;
 
 class RoleController extends Controller
 {
+    /**
+     * @var RoleService
+     */
+    private $role;
+
+    /**
+     *  Carrega as instâncias das dependências desta classe.
+     */
+    public function __construct(RoleService $role)
+    {
+        $this->role = $role;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +27,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = $this->role->index();
+        $breadcrumb = $this->breadcrumb(['Funções']);
+
+        return view('admin.roles.index', compact('roles', 'breadcrumb'));
     }
 
     /**
@@ -45,7 +62,10 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = $this->role->show($id);
+        $breadcrumb = $this->breadcrumb(['Funções', 'Visualizar']);
+
+        return view('admin.roles.show', compact('role', 'breadcrumb'));
     }
 
     /**
@@ -79,6 +99,19 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = $this->role->delete($id);
+
+        if (!$service->success) {
+            return redirect()->route('roles.show', $id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
+
+        return redirect()
+                        ->route('roles.index')
+                        ->withSuccess($service->message);
     }
 }
