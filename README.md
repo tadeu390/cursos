@@ -32,6 +32,7 @@ Para isso devemos adicionar as seguintes linhas ao nosso arquivo de hosts. Cada 
 ```
 127.0.0.1	curso-repository.tadeu
 127.0.0.1	curso-php-composer.tadeu
+127.0.0.1	curso-laravel-acl.tadeu
 ```
 Pronto, agora nossos projetos estão disponveis para serem acessados pelo navegador.
 
