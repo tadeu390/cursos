@@ -135,7 +135,6 @@ class ProdutoController extends Controller
     public function search(Request $request)
     {
         $produtos = $this->produto->search($request);
-
         $data = $request->except('_token');
 
         return view('admin.produtos.index', compact('produtos', 'data'));
