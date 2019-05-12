@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Repositories\Contracts\UsuarioRepositoryInterface;
 use Illuminate\Http\Request;
+use Mockery\CountValidator\Exception;
 
 class UsuarioService
 {
@@ -26,7 +27,7 @@ class UsuarioService
      */
     public function index()
     {
-        return $this->repository->paginate(2);
+        return $this->repository->paginate(30);
     }
 
     /**
@@ -49,6 +50,7 @@ class UsuarioService
     public function store($data)
     {
         try {
+
             $this->repository->store($data);
 
             return (object) [
@@ -85,6 +87,7 @@ class UsuarioService
     public function update($id, $data)
     {
         try {
+            //throw new Exception("Error Processing Request", 1);
             $this->repository->update($id, $data);
 
             return (object) [
@@ -145,5 +148,31 @@ class UsuarioService
     public function countUser()
     {
         return count($this->repository->getAll());
+    }
+
+    /**
+     * Atualiza as funções de um usuário.
+     *
+     * @param array $data
+     * @param int $id
+     */
+    public function updateRoles($data, $id)
+    {
+        try {
+            $user = $this->repository->findById($id);
+            $user->roles()->sync($data['roles']);
+
+            return (object) [
+                'success' => true,
+                'message' => 'Funções alteradas com sucesso.'
+            ];
+
+        } catch (\Exception $e) {
+            return (object) [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'class' => get_class($e)
+            ];
+        }
     }
 }

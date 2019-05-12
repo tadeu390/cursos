@@ -49,7 +49,7 @@
                         <tbody>
                             @foreach ($role->usuarios as $item)
                             <tr>
-                                <td>{{$item->name}}</td>
+                                <td><a href="{{route('usuarios.show', $item->id)}}">{{$item->name}}</a></td>
                                 <td>{{$item->email}}</td>
                             </tr>
                             @endforeach
@@ -60,7 +60,8 @@
                 <form action="{{route('roles.destroy', $role->id)}}" class="form" method="POST">
                     @csrf
                     <input type="hidden" name="_method" value="DELETE">
-                    <button href="submit" class="btn btn-danger">Deletar</button>
+                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    <a href="{{route('roles.showPermissions', $role->id)}}" class="btn btn-purple">Editar permissões</a>
                 </form>
             </div>
         </div>

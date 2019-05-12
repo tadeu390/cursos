@@ -40,7 +40,9 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumb = $this->breadcrumb(['Permissões', 'Novo']);
+
+        return view('admin.permissions.create', compact('breadcrumb'));
     }
 
     /**
@@ -51,7 +53,20 @@ class PermissionController extends Controller
      */
     public function store(PermissionRequest $request)
     {
-        //
+        $service = $this->permission->store($request->all());
+
+        if (!$service->success) {
+            return redirect()->route('permissions.create')
+                ->with('error', [
+                    'class' => $service->class,
+                    'message' => $service->message
+                ])
+                ->withInput();
+        }
+
+        return redirect()
+                        ->route('permissions.index')
+                        ->withSuccess($service->message);
     }
 
     /**
@@ -76,7 +91,10 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $permission = $this->permission->edit($id);
+        $breadcrumb = $this->breadcrumb(['Permissões', 'Editar', $permission->name]);
+
+        return view('admin.permissions.edit', compact('breadcrumb', 'permission'));
     }
 
     /**
@@ -88,7 +106,20 @@ class PermissionController extends Controller
      */
     public function update(PermissionRequest $request, $id)
     {
-        //
+        $service = $this->permission->update($id, $request->all());
+
+        if (!$service->success) {
+            return redirect()->route('permissions.edit', $id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
+
+        return redirect()
+                        ->route("permissions.index")
+                        ->withSuccess($service->message);
     }
 
     /**
@@ -112,6 +143,31 @@ class PermissionController extends Controller
 
         return redirect()
                         ->route('permissions.index')
+                        ->withSuccess($service->message);
+    }
+
+    /**
+     * Envia para a camada de serviço a solicitação de desvínculo entre uma função e uma permissão.
+     *
+     * @param  int  $permission_id
+     * @param  int  $role_id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeFuncao(int $permission_id, int $role_id)
+    {
+        $service = $this->permission->removeFuncao($permission_id, $role_id);
+
+        if (!$service->success) {
+            return redirect()->route('permissions.show', $permission_id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
+
+        return redirect()
+                        ->route('permissions.show', $permission_id)
                         ->withSuccess($service->message);
     }
 }

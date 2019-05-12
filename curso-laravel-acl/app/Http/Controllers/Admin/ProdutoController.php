@@ -28,7 +28,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        if (Gate::denies('view_produto')) {
+        if (Gate::denies('SHOW')) {
             abort(403);
         }
 

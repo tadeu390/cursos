@@ -48,6 +48,8 @@
                                     <a href="{{route('roles.edit', $item->id)}}" title="Editar"><i class="fa fa-edit"></i></a>
                                     &nbsp;&nbsp;&nbsp;
                                     <a href="{{route('roles.show', $item->id)}}" title="Visualizar"><i class="fa fa-info-circle"></i></a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="{{route('roles.showPermissions', $item->id)}}" title="Permissões"><i class="fa fa-lock"></i></a>
                                 </td>
                             </tr>
                         @endforeach

@@ -19,13 +19,23 @@ class PermissionService
     }
 
     /**
+     * Retorna uma lista contendo todas as permissões
+     *
+     * @return object mixed
+     */
+    public function getAll()
+    {
+        return $this->repository->getAll();
+    }
+
+    /**
      * Retorna os dados do registro
      *
      * @return object mixed
      */
     public function index()
     {
-        return $this->repository->paginate(2);
+        return $this->repository->paginate(30);
     }
 
     /**
@@ -37,6 +47,66 @@ class PermissionService
     public function show($id)
     {
         return $this->repository->findWhereFirst('id', $id);
+    }
+
+    /**
+     * Envia os dados para o repositório registrar no banco.
+     *
+     * @param mixed $data
+     * @return object mixed
+     */
+    public function store($data)
+    {
+        try {
+            $this->repository->store($data);
+
+            return (object) [
+                'success' => true,
+                'message' => 'Permissão cadastrada com sucesso.'
+            ];
+        } catch (\Exception $e) {
+            return (object) [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'class' => get_class($e)
+            ];
+        }
+    }
+
+    /**
+     * Retorna os dados do registro
+     *
+     * @param  int $id
+     * @return object mixed
+     */
+    public function edit($id)
+    {
+        return $this->repository->findById($id);
+    }
+
+    /**
+     * Envia os dados para o repositório alterar no banco.
+     *
+     * @param mixed $data
+     * @param int $id
+     * @return object mixed
+     */
+    public function update($id, $data)
+    {
+        try {
+            $this->repository->update($id, $data);
+
+            return (object) [
+                'success' => true,
+                'message' => 'Permissão atualizada com sucesso.'
+            ];
+        } catch (\Exception $e) {
+            return (object) [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'class' => get_class($e)
+            ];
+        }
     }
 
     /**
@@ -55,7 +125,7 @@ class PermissionService
                 'message' => 'Permissão apagada com sucesso.'
             ];
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return (object) [
                 'success' => false,
                 'message' => $e->getMessage(),
@@ -72,5 +142,32 @@ class PermissionService
     public function countPermission()
     {
         return count($this->repository->getAll());
+    }
+
+    /**
+     * Desvincula uma função de uma permissão.
+     *
+     * @param int $permission_id
+     * @param int $role_id
+     * @return object mixed
+     */
+    public function removeFuncao($permission_id, $role_id)
+    {
+        try {
+            $permission = $this->repository->findById($permission_id);
+            $permission->roles()->detach($role_id);
+
+            return (object) [
+                'success' => true,
+                'message' => 'Função desvinculada com sucesso.'
+            ];
+
+        } catch (\Exception $e) {
+            return (object) [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'class' => get_class($e)
+            ];
+        }
     }
 }

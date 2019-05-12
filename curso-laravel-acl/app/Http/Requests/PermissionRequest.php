@@ -13,7 +13,7 @@ class PermissionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,16 @@ class PermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'label' => 'required',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => 'Nome',
+            'label' => 'Descrição',
         ];
     }
 }

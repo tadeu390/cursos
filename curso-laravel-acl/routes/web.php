@@ -27,12 +27,17 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('/', 'DashboardController@index')->name('admin');
 
 
+    Route::put('usuarios/updateRoles/{user_id}', 'UsuarioController@updateRoles')->name('usuarios.updateRoles');
+    Route::get('usuarios/showRoles/{user_id}', 'UsuarioController@showRoles')->name('usuarios.showRoles');
     Route::any('usuarios/search', 'UsuarioController@search')->name('usuarios.search');
     Route::resource('usuarios', "UsuarioController");
 
     Route::any('permissions/search', 'PermissionController@search')->name('permissions.search');
+    Route::get('permissions/removeFuncao/{permission_id}/{role_id}', 'PermissionController@removeFuncao')->name('permissions.removeFuncao');
     Route::resource('permissions', "PermissionController");
 
+    Route::get('roles/showPermissions/{role_id}', 'RoleController@showPermissions')->name('roles.showPermissions');
+    Route::put('roles/updatePermissions/{role_id}', 'RoleController@updatePermissions')->name('roles.updatePermissions');
     Route::any('roles/search', 'RoleController@search')->name('roles.search');
     Route::resource('roles', "RoleController");
 //primeiro a rota search, depois os resources

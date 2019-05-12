@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UsuarioRequest;
-use App\Services\UsuarioService;
+use App\Services\{
+    UsuarioService,
+    RoleService
+};
 
 class UsuarioController extends Controller
 {
@@ -14,11 +17,17 @@ class UsuarioController extends Controller
     protected $usuario;
 
     /**
+     * @var RoleService
+     */
+    protected $role;
+
+    /**
      *  Carrega as instâncias das dependências desta classe.
      */
-    public function __construct(UsuarioService $usuario)
+    public function __construct(UsuarioService $usuario, RoleService $role)
     {
         $this->usuario = $usuario;
+        $this->role = $role;
     }
 
     /**
@@ -165,6 +174,46 @@ class UsuarioController extends Controller
 
         $data = $request->except('_token');
         return view('admin.usuarios.index', compact('usuarios', 'data'));
+    }
+
+    /**
+     * Exibe o formulário de funções do usuário.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showRoles(int $id)
+    {
+        $usuario = $this->usuario->edit($id);
+        $roles = $this->role->getAll();
+        $breadcrumb = $this->breadcrumb(['Usuários', 'Editar funções']);
+
+        return view('admin.usuarios.showRoles', compact('breadcrumb', 'usuario', 'roles'));
+    }
+
+    /**
+     * Altera as funções do usuário.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRoles(Request $request, int $id)
+    {
+        $service = $this->usuario->updateRoles($request->all(), $id);
+
+        if (!$service->success) {
+            return redirect()->route('usuarios.showRoles', $id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
+
+        return redirect()
+                        ->route('usuarios.index')
+                        ->withSuccess($service->message);
     }
 
     /**

@@ -50,7 +50,7 @@ table .fa {
     font-size: .8em !important;
 }
 
-.fa-edit, .fa-info-circle {
+.fa-edit, .fa-info-circle, .fa-lock, #acoes .fa-address-card {
     color: #605ca8;
 }
 

@@ -3,7 +3,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
-use App\Services\RoleService;
+use App\Services\{
+    RoleService,
+    PermissionService
+};
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -13,11 +17,17 @@ class RoleController extends Controller
     private $role;
 
     /**
+     * @var PermissionService
+     */
+    private $permission;
+
+    /**
      *  Carrega as instâncias das dependências desta classe.
      */
-    public function __construct(RoleService $role)
+    public function __construct(RoleService $role, PermissionService $permission)
     {
         $this->role = $role;
+        $this->permission = $permission;
     }
 
     /**
@@ -40,7 +50,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumb = $this->breadcrumb(['Funções', 'Novo']);
+
+        return view('admin.permissions.create', compact('breadcrumb'));
     }
 
     /**
@@ -51,7 +63,20 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        //
+        $service = $this->role->store($request->all());
+
+        if (!$service->success) {
+            return redirect()->route('roles.create')
+                ->with('error', [
+                    'class' => $service->class,
+                    'message' => $service->message
+                ])
+                ->withInput();
+        }
+
+        return redirect()
+                        ->route('roles.index')
+                        ->withSuccess($service->message);
     }
 
     /**
@@ -76,19 +101,35 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = $this->role->edit($id);
+        $breadcrumb = $this->breadcrumb(['Funções', 'Editar', $role->name]);
+
+        return view('admin.roles.edit', compact('breadcrumb', 'role'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Requests\RoleRequest  $request
+     * @param  \Illuminate\Http\Requests\RoleRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(RoleRequest $request, $id)
     {
-        //
+        $service = $this->role->update($id, $request->all());
+
+        if (!$service->success) {
+            return redirect()->route('roles.edit', $id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
+
+        return redirect()
+                        ->route("roles.index")
+                        ->withSuccess($service->message);
     }
 
     /**
@@ -103,6 +144,46 @@ class RoleController extends Controller
 
         if (!$service->success) {
             return redirect()->route('roles.show', $id)
+                    ->with('error', [
+                        'class' => $service->class,
+                        'message' => $service->message
+                    ])
+                    ->withInput();
+        }
+
+        return redirect()
+                        ->route('roles.index')
+                        ->withSuccess($service->message);
+    }
+
+    /**
+     * Exibe o formulário de permissões da função.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showPermissions(int $id)
+    {
+        $role = $this->role->edit($id);
+        $permissions = $this->permission->getAll();
+        $breadcrumb = $this->breadcrumb(['Funções', 'Editar Permissões']);
+
+        return view('admin.roles.showPermissions', compact('breadcrumb', 'role', 'permissions'));
+    }
+
+    /**
+     * Altera as permissões da função.
+     *
+     * @param  \Illuminate\Http\Requests  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePermissions(Request $request, int $id)
+    {
+        $service = $this->role->updatePermissions($request->all(), $id);
+
+        if (!$service->success) {
+            return redirect()->route('roles.showPermissions', $id)
                     ->with('error', [
                         'class' => $service->class,
                         'message' => $service->message
