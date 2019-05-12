@@ -128,6 +128,16 @@ return [
             'text'        => 'Usuários',
             'url'         => 'admin/usuarios',
             'icon'        => 'users',
+        ],
+        [
+            'text'        => 'Funções',
+            'url'         => 'admin/roles',
+            'icon'        => 'address-card',
+        ],
+        [
+            'text'        => 'Permissões',
+            'url'         => 'admin/permissions',
+            'icon'        => 'check-circle',
         ]
     ],
 

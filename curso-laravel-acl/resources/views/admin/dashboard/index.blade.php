@@ -12,7 +12,7 @@
             <a href="{{url('admin/usuarios')}}">
                 <div class="card" style="width: 18rem;">
                     <div class="card-header text-center">
-                        <i class="fa fa-users"></i>
+                        <i class="fa fa-fw fa-users"></i>
                     </div>
                     <div class="card-body text-center">
                     <p class="card-text">Usuários ({{$report->users}})</p>
@@ -24,7 +24,7 @@
             <a href="{{url('admin/roles')}}">
                 <div class="card" style="width: 18rem;">
                     <div class="card-header text-center">
-                        <i class="fa fa-address-card"></i>
+                        <i class="fa fa-fw fa-address-card"></i>
                     </div>
                     <div class="card-body text-center">
                         <p class="card-text">Funções ({{$report->roles}})</p>

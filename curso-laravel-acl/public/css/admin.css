@@ -54,7 +54,7 @@ table .fa {
     color: #605ca8;
 }
 
-#cardsDashboard .fa-users, .fa-address-card,.fa-check-circle
+#cardsDashboard .fa-users, #cardsDashboard .fa-address-card, #cardsDashboard .fa-check-circle
 {
     font-size: 100px;
     color: #605ca8;
