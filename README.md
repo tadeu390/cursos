@@ -27,6 +27,19 @@ OBS.: Note que ao executar pela primeira vez o comando acima, levará um bom tem
 
 Ao término da execução do comando acima, o laradock estará pronto para uso e as imagens nginx, mysql e phpmyadmin estarão carregadas, ou seja, teremos um container para cada imagem pronto para uso.
 
+Em seguida deveremos acessar a nossa workspace do container do docker com o seguinte comando:
+```
+sudo ./config/workspace.sh
+```
+Digite o seguinte comando dentro da workspace
+```
+ls
+```
+Pode-se ver a lista de projetos disponíveis com o comando acima. Agora basta entrar dentro do projeto que se quer acessar utilizando o comando <b>cd</b> e digitar o seguinte comando para instalar as dependências do projeto:
+```
+composer install
+```
+
 Todos os projetos contidos neste repositório dependem de um virtual host configurado para que possam ser acessados pelo navegador, para que isso seja possível será necessário alterarmos o arquivo de hosts do sistema operacional em uso.
 Para isso devemos adicionar as seguintes linhas ao nosso arquivo de hosts. Cada linha se refere a um projeto contido neste repositório.
 ```
@@ -36,10 +49,6 @@ Para isso devemos adicionar as seguintes linhas ao nosso arquivo de hosts. Cada 
 ```
 Pronto, agora nossos projetos estão disponveis para serem acessados pelo navegador.
 
-Se quisermos acessar a nossa workspace do container do docker podemos facilmente executar o seguinte comando:
-```
-sudo ./config/workspace.sh
-```
 <b>Nota:</b> Ao entrarmos na workspace se dermos o comando <b>ls</b>, o terminal listará pra gente todos os projetos contidos neste repositório, sendo assim, podemos acessar cada projeto através do comando cd e executar la dentro os comandos para configurar cada projeto, por exemplo, podemos acessar um projeto e dar o comando composer install, que instalará todas as dependências do projeto em questão.
 
 Dentro da pasta configs há vários arquivos que podem ser executados, cada um possui uma função específica. Segue abaixo a descrição da funcionalidade de cada um deles.
