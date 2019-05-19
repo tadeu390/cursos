@@ -29,7 +29,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        $permissions = Permission::with('roles')->get();
+        //os providers sempre rodam antes de qualquer operacao, seja ela uma requisicao
+        //pelo navegador ou seja ela um comando executado no terminal, portanto é necessário
+        //fazer a verificação abaixo. Isto é, se for algo terminal ele simplesmente atribuit
+        //ao arraty permissions vazio ([]). É necessário, pois ao se executar o comando
+        //migrate pelo terminal, o provider vai ser executado e a Model Permission caso não exista
+        //na base de dados irá dar erro e impedir de criar as migrations.
+        $permissions = app()->runningInConsole() ? [] : Permission::with('roles')->get();
+
         foreach ($permissions as $permission) {
             Gate::define($permission->name, function (User $user) use($permission) {
                 return $user->hasPermission($permission);

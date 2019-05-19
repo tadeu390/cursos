@@ -7,7 +7,7 @@
         <div class="box box-purple">
             @include('admin.includes.header')
             <div class="box-body">
-                @include('admin.usuarios.includes.alerts')
+                @include('admin.includes.alerts')
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group">
                         <label for="name">Nome</label>
@@ -40,7 +40,9 @@
                 <form action="{{route('usuarios.destroy', $usuario->id)}}" class="form" method="POST">
                     @csrf
                     <input type="hidden" name="_method" value="DELETE">
-                    <button href="submit" class="btn btn-danger">Deletar</button>
+                    @can('DELETE')
+                        <button href="submit" class="btn btn-danger">Deletar</button>
+                    @endcan
                 </form>
             </div>
         </div>

@@ -11,7 +11,7 @@
         <div class="box box-purple">
             @include('admin.includes.header_form')
             <div class="box-body">
-                @include("admin.usuarios.includes.alerts")
+                @include("admin.includes.alerts")
                 {{ Form::open(['route' => 'usuarios.store', 'class' => 'form', 'method' => 'POST']) }}
                     @include('admin.usuarios._partials.form')
                     <div class="form-group">

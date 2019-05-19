@@ -138,6 +138,16 @@ return [
             'text'        => 'Permissões',
             'url'         => 'admin/permissions',
             'icon'        => 'check-circle',
+        ],
+        [
+            'text'        => 'Módulos',
+            'url'         => 'admin/modules',
+            'icon'        => 'desktop',
+        ],
+        [
+            'text'        => 'Grupos',
+            'url'         => 'admin/groups',
+            'icon'        => 'object-group',
         ]
     ],
 

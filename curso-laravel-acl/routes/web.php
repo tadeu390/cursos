@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::put('usuarios/updateRoles/{user_id}', 'UsuarioController@updateRoles')->name('usuarios.updateRoles');
     Route::get('usuarios/showRoles/{user_id}', 'UsuarioController@showRoles')->name('usuarios.showRoles');
+    //primeiro a rota search, depois os resources, para todos os casos
     Route::any('usuarios/search', 'UsuarioController@search')->name('usuarios.search');
     Route::resource('usuarios', "UsuarioController");
 
@@ -40,7 +41,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::put('roles/updatePermissions/{role_id}', 'RoleController@updatePermissions')->name('roles.updatePermissions');
     Route::any('roles/search', 'RoleController@search')->name('roles.search');
     Route::resource('roles', "RoleController");
-//primeiro a rota search, depois os resources
+
+    Route::any('modules/search', 'ModuleController@search')->name('modules.search');
+    Route::resource('modules', 'ModuleController');
+
+    Route::any('groups/search', 'GroupController@search')->name('groups.search');
+    Route::resource('groups', 'GroupController');
 
     Route::get('roles-permissions', 'ProdutoController@permissions');
 

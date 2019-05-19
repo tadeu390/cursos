@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Categoria;
+use App\Models\AccessLevel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,18 @@ class AppServiceProvider extends ServiceProvider
 
                 $view->atributos = [];
                 foreach (Categoria::pluck('title', 'id') as $key => $item) {
+                    $view->atributos[$key] = ['title' => $item];
+                }
+            }
+        );
+
+        view()->composer(
+            'admin.roles.*',
+            function ($view) {
+                $view->with('access_levels', AccessLevel::pluck('name', 'id')->toArray());
+
+                $view->atributos = [];
+                foreach (AccessLevel::pluck('name', 'id') as $key => $item) {
                     $view->atributos[$key] = ['title' => $item];
                 }
             }

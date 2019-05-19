@@ -2,6 +2,8 @@
 namespace App\Services;
 
 use App\Repositories\Contracts\RoleRepositoryInterface;
+use App\Repositories\Contracts\PermissionRepositoryInterface;
+use App\Repositories\Contracts\AccessRepositoryInterface;
 
 class RoleService
 {
@@ -11,11 +13,26 @@ class RoleService
     private $repository;
 
     /**
+     * @var PermissionRepositoryInterface
+     */
+    private $permission_repo;
+
+    /**
+     * @var AccessRepositoryInterface
+     */
+    private $access_repo;
+
+    /**
      * Carrega as instâncias das dependências desta classe.
      */
-    public function __construct(RoleRepositoryInterface $repository)
-    {
+    public function __construct(
+        RoleRepositoryInterface $repository,
+        PermissionRepositoryInterface $permission_repo,
+        AccessRepositoryInterface $access_repo
+    ) {
         $this->repository = $repository;
+        $this->permission_repo = $permission_repo;
+        $this->access_repo = $access_repo;
     }
 
     /**
@@ -154,7 +171,29 @@ class RoleService
     {
         try {
             $role = $this->repository->findById($id);
-            $role->permissions()->sync($data['permissions']);
+
+            $permissions = $this->permission_repo->getAll();
+            $key = 50;//qualquer valor, apenas para o array possuir uma chave
+            $accesses = [];
+            for ($i = 1; isset($data['module'.$i]); $i++) {
+                $module_id = $data['module'.$i];
+
+                foreach ($permissions as $permission) {
+                    $relations = [];
+                    $access_level_id = $data['module'.$i.'_'.$permission->name];
+                    $relations[$key] = ['role_id' => $id, 'permission_id' => $permission->id, 'module_id' => $module_id, 'access_level_id' => $access_level_id];
+                    $accesses = array_merge($accesses, $relations);
+                }
+            }
+
+            $permissions = $role->permissions;
+            for ($i = 0; $i < count($accesses); $i++) {
+                if (isset($permissions[$i])) {
+                    $this->access_repo->update($permissions[$i]->pivot->id, $accesses[$i]);
+                } else {
+                    $this->access_repo->store($accesses[$i]);
+                }
+            }
 
             return (object) [
                 'success' => true,

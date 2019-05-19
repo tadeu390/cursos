@@ -7,7 +7,7 @@
         <div class="box box-purple">
             @include('admin.includes.header_form')
             <div class="box-body">
-                @include("admin.roles.includes.alerts")
+                @include("admin.includes.alerts")
                 <form action="{{route('roles.update', $role->id)}}" class="form" method="POST">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PermissionRequest;
 use App\Services\PermissionService;
+use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends Controller
 {
@@ -27,6 +28,9 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('SHOW',1)) {
+            abort(403);
+        }
         $permissions = $this->permission->index();
         $breadcrumb = $this->breadcrumb(['Permissões']);
 

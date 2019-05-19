@@ -8,6 +8,7 @@ use App\Services\{
     UsuarioService,
     RoleService
 };
+use Illuminate\Support\Facades\Gate;
 
 class UsuarioController extends Controller
 {
@@ -37,6 +38,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('SHOW')) {
+            abort(403);
+        }
         $breadcrumb = $this->breadcrumb(['Usuários']);
         $usuarios = $this->usuario->index();
 
@@ -50,6 +54,9 @@ class UsuarioController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('CREATE')) {
+            abort(403);
+        }
         $breadcrumb = $this->breadcrumb(['Usuários', 'Novo']);
         return view('admin.usuarios.create', compact('breadcrumb'));
     }
@@ -86,6 +93,9 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
+        if (Gate::denies('SHOW')) {
+            abort(403);
+        }
         $breadcrumb = $this->breadcrumb(['Usuários', 'Visualizar']);
         $usuario = $this->usuario->show($id);
 
@@ -103,6 +113,9 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('UPDATE')) {
+            abort(403);
+        }
         $breadcrumb = $this->breadcrumb(['Usuários', 'Editar']);
         $usuario = $this->usuario->edit($id);
 

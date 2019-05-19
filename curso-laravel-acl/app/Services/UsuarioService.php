@@ -132,7 +132,7 @@ class UsuarioService
      * Solicita a repositório para que faça busca no banco de dados conforme os parâmetros de busca contidos
      * no objeto $request.
      *
-     * @param  \Illuminate\Http\Requests\UsuarioRequest $request
+     * @param  \Illuminate\Http\Requests $request
      * @return object mixed
      */
     public function search(Request $request)
@@ -160,7 +160,12 @@ class UsuarioService
     {
         try {
             $user = $this->repository->findById($id);
-            $user->roles()->sync($data['roles']);
+
+            if (isset($data['roles'])) {
+                $user->roles()->sync($data['roles']);
+            } else {
+                $user->roles()->detach();
+            }
 
             return (object) [
                 'success' => true,

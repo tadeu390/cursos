@@ -45,9 +45,16 @@ class User extends Authenticatable
      * @param Permission $permission
      * @return bool
      */
-    public function hasPermission(Permission $permission)
+    public function hasPermission(Permission $permission, $instancia = false)
     {
-        return $this->hasAnyRoles($permission->roles);
+        $module_id = 0;
+        foreach ($permission->modules as $module) {
+            if($module->name == $instancia) {
+                $module_id = $module->id;
+            }
+        }
+
+        return $this->hasAnyRoles($permission->roles, $module_id);
     }
 
     /**
@@ -57,7 +64,7 @@ class User extends Authenticatable
      * @param array $roles -> Contém todas as funções associada a uma permissão específica
      * @return bool
      */
-    public function hasAnyRoles($roles)
+    public function hasAnyRoles($roles, $module_id = false)
     {
         /**
          * Abaixo buscamos todas as funções associadas ao usuário logado, em seguida retonará true ou false
@@ -66,7 +73,7 @@ class User extends Authenticatable
 
         if (is_array($roles) || is_object($roles)) {
             foreach ($roles as $role) {
-                 if ($this->roles->contains('name', $role->name)) {
+                 if ($this->roles->contains('name', $role->name) && $role->pivot->access_level_id != 1 && $role->pivot->module_id == $module_id) {
                     return true;
                  }
             }

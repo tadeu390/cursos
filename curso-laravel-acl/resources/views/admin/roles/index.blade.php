@@ -28,7 +28,7 @@
         <div class="box box-purple">
             @include('admin.includes.header')
             <div class="box-body">
-                @include('admin.roles.includes.alerts')
+                @include('admin.includes.alerts')
                 <table class="table table-hover">
                     <thead>
                         <tr>

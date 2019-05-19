@@ -7,7 +7,7 @@
         <div class="box box-purple">
             @include('admin.includes.header')
             <div class="box-body">
-                @include('admin.roles.includes.alerts')
+                @include('admin.includes.alerts')
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group">
                     <label for="name">Nome</label>
@@ -17,25 +17,6 @@
                     <label for="label">Descrição</label>
                     <input readonly="readonly" type="text" id="label" value="{{$role->label ?? old('label')}}" name="label" class="form-control">
                 </div>
-                <fieldset class="p-2 border-fieldset">
-                    <legend class="p-2">Permissões</legend>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td>Nome</td>
-                                <td>Descrição</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($role->permissions as $item)
-                            <tr>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->label}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </fieldset>
                 <br />
                 <fieldset class="p-2 border-fieldset">
                     <legend class="p-2">Usuários</legend>

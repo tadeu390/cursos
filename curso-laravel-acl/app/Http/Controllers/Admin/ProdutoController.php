@@ -28,7 +28,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        if (Gate::denies('SHOW')) {
+        if (Gate::denies('SHOW', \App\Models\Produto::class)) {
             abort(403);
         }
 

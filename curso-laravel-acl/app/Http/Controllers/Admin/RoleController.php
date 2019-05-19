@@ -5,9 +5,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use App\Services\{
     RoleService,
-    PermissionService
+    PermissionService,
+    ModuleService
 };
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
 {
@@ -22,12 +24,18 @@ class RoleController extends Controller
     private $permission;
 
     /**
+     * @var ModuleService
+     */
+    private $module;
+
+    /**
      *  Carrega as instâncias das dependências desta classe.
      */
-    public function __construct(RoleService $role, PermissionService $permission)
+    public function __construct(RoleService $role, PermissionService $permission, ModuleService $module)
     {
         $this->role = $role;
         $this->permission = $permission;
+        $this->module = $module;
     }
 
     /**
@@ -52,7 +60,7 @@ class RoleController extends Controller
     {
         $breadcrumb = $this->breadcrumb(['Funções', 'Novo']);
 
-        return view('admin.permissions.create', compact('breadcrumb'));
+        return view('admin.roles.create', compact('breadcrumb'));
     }
 
     /**
@@ -166,9 +174,10 @@ class RoleController extends Controller
     {
         $role = $this->role->edit($id);
         $permissions = $this->permission->getAll();
+        $modules = $this->module->getAll();
         $breadcrumb = $this->breadcrumb(['Funções', 'Editar Permissões']);
 
-        return view('admin.roles.showPermissions', compact('breadcrumb', 'role', 'permissions'));
+        return view('admin.roles.showPermissions', compact('breadcrumb', 'role', 'permissions', 'modules'));
     }
 
     /**

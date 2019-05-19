@@ -19,15 +19,6 @@ class CreatePermissionsTable extends Migration
             $table->string('label', 100);
             $table->timestamps();
         });
-
-        Schema::create('permission_role', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('permission_id')->unsigned();
-            $table->bigInteger('role_id')->unsigned();
-
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-        });
     }
 
     /**

@@ -16,6 +16,16 @@ class Permission extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(\App\Models\Role::class);
+        return $this->belongsToMany(\App\Models\Role::class, 'accesses')->withPivot('access_level_id', 'module_id');
+    }
+
+    public function access_levels()
+    {
+        return $this->belongsToMany(\App\Models\AccessLevel::class, 'accesses');
+    }
+
+    public function modules()
+    {
+        return $this->belongsToMany(\App\Models\Module::class, 'accesses')->withPivot('access_level_id', 'module_id');
     }
 }

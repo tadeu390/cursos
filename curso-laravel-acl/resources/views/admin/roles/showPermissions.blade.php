@@ -7,7 +7,7 @@
         <div class="box box-purple">
             @include('admin.includes.header_form')
             <div class="box-body">
-                @include("admin.roles.includes.alerts")
+                @include("admin.includes.alerts")
                 <form action="{{route('roles.updatePermissions', $role->id)}}" class="form" method="POST">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">
@@ -20,27 +20,36 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <td>Nome</td>
-                                    <td>Descrição</td>
-                                    <td></td>
+                                    <td>Módulo</td>
+                                    @foreach ($permissions as $item)
+                                        <td>{{$item->name}}</td>
+                                    @endforeach
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($permissions as $item)
-                                <tr>
-                                    <td>{{$item->name}}</td>
-                                    <td>{{$item->label}}</td>
-                                    <td>
-                                        <?php $checked = ""; ?>
-                                        @foreach ($role->permissions as $item2)
-                                            <?php if($item2->id == $item->id) $checked = "checked"; ?>
+                                @foreach ($modules as $module)
+                                    <tr>
+                                        <td>
+                                            {{$module->name}}
+                                            {{Form::hidden('module'.$module->id, $module->id)}}
+                                        </td>
+                                        @foreach ($permissions as $permission)
+                                            <td>
+                                                <?php
+                                                    $level = 1;
+                                                    foreach ($role->access_levels as $p) {
+                                                        if($p->pivot->module_id == $module->id && $p->pivot->permission_id == $permission->id)
+                                                            $level = $p->pivot->access_level_id;
+                                                    }
+                                                ?>
+                                                {!! Form::select('module'.$module->id.'_'.$permission->name,
+                                                    $access_levels, $level,
+                                                    ['class' => 'form-control'],
+                                                    $atributos)
+                                                !!}
+                                            </td>
                                         @endforeach
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" <?php echo $checked; ?> class="custom-control-input" value="{{$item->id}}" id="permission_id{{$item->id}}" name="permissions[]">
-                                            <label class="custom-control-label" for="permission_id{{$item->id}}"></label>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

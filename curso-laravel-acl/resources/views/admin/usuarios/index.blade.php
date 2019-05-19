@@ -21,14 +21,16 @@
                     @if(isset($data))
                         <a href="{{route('usuarios.index')}}" class="btn btn-warning">Limpar filtros</a>
                     @endif
-                    <a href="{{route('usuarios.create')}}" class="btn btn-purple">Adicionar &nbsp; <i class="fa fa-plus-circle"></i></a>
+                    @can('CREATE')
+                        <a href="{{route('usuarios.create')}}" class="btn btn-purple">Adicionar &nbsp; <i class="fa fa-plus-circle"></i></a>
+                    @endcan
                 </form>
             </div>
         </div>
         <div class="box box-purple">
             @include('admin.includes.header')
             <div class="box-body">
-                @include('admin.usuarios.includes.alerts')
+                @include('admin.includes.alerts')
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -45,8 +47,10 @@
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->email}}</td>
                                 <td class="text-right" id="acoes">
-                                    <a href="{{route('usuarios.edit', $item->id)}}" title="Editar"><i class="fa fa-edit"></i></a>
-                                    &nbsp;&nbsp;&nbsp;
+                                    @can('UPDATE')
+                                        <a href="{{route('usuarios.edit', $item->id)}}" title="Editar"><i class="fa fa-edit"></i></a>
+                                        &nbsp;&nbsp;&nbsp;
+                                    @endcan
                                     <a href="{{route('usuarios.show', $item->id)}}" title="Visualizar"><i class="fa fa-info-circle"></i></a>
                                     &nbsp;&nbsp;&nbsp;
                                     <a href="{{route('usuarios.showRoles', $item->id)}}" title="Funções"><i class="fa fa-address-card"></i></a>
