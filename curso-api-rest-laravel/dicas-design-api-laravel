@@ -1,0 +1,20 @@
+Tratamento de erros 404
+
+Tratamento de erros para verbos HTTP errados para uma requisição
+
+Na pasta dos controllers, criar uma pasta API para os controllers de API
+
+Versionamento da API (TANTO NAS ROTAS QUANTO NOS CONTROLLERS)
+
+Requisição para API é sempre ajax, configurar isso no client rest adicionando os dois headers abaixo
+Content-Type        application/json
+X-Requested-With    XMLHttpRequest
+
+Respeitar os padrões de URLs
+
+Utilizar os verbos HTTPs
+
+utilizar spatie/laravel cor
+Para que a api possa ser acessada de outro servidor
+com isso, pode-se configurar também quais verbos http a mesma poderá aceitar
+pode-se especificar qual cliente pode acessa-la.
