@@ -18,3 +18,47 @@ utilizar spatie/laravel cor
 Para que a api possa ser acessada de outro servidor
 com isso, pode-se configurar também quais verbos http a mesma poderá aceitar
 pode-se especificar qual cliente pode acessa-la.
+
+
+CONFIGURAR O JWT
+
+composer require tymon/jwt-auth:dev-devlop --prefer-source
+
+Em seguida registrar o provider e um alias
+
+provider:
+Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
+alias:
+'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+
+Gerar arquivo de configuracao
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+
+Gerar chave
+php artisan jwt:secret
+
+
+
+RECUPERAR USUÁRIO
+Na requisição de busca pelo usuário logado informar o token no header da requisição da seguida forma:
+
+key
+Authorization
+
+value
+Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9jdXJzby1hcGktcmVzdC1sYXJhdmVsLnRhZGV1XC9hcGlcL2F1dGgiLCJpYXQiOjE1NjE1OTcyMDEsImV4cCI6MTU2MTYwMDgwMSwibmJmIjoxNTYxNTk3MjAxLCJqdGkiOiJKd3psWlpTV1VJb2JGb1hnIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.dk9B3fmLX78mSlX6MHKUVckRcfVKJeXGSR9eEn54voc
+
+
+Para qualquer requisição que necessite de um usuario logado, basta passar no header o token gerado no login
+
+DEVE-SE REGISTRAR OS MIDDLEWARES No arquivo Kernel.php e coloca-lo (jwt.auth) na rota ou no grupo de rotas que precisa de autenticação
+
+
+
+NO arquivo auth.php
+
+em guards -> api
+trocar token para jwt
+
+no MIDDLEWARE na rota colocar: auth:api
