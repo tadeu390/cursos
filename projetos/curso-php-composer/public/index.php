@@ -17,7 +17,7 @@ var_dump($home->index());
 var_dump(getTrim(' teste '));
 
 //chamando classes mapeadatas automaticamente
-//graças ao class map, porém toda vez que se 
+//graï¿½as ao class map, porï¿½m toda vez que se 
 //adiciona uma classe nova de rodar o autoload do
 //composer
 $object = new MyClass();
